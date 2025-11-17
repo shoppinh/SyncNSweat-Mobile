@@ -15,7 +15,7 @@ class UserModel extends Equatable {
     return UserModel(
       id: json['id'] as int,
       email: json['email'] as String? ?? '',
-      spotifyConnected: json['spotify_connected'] as bool? ?? false,
+      spotifyConnected: json['preferences']?['spotify_connected'] as bool? ?? false,
     );
   }
 

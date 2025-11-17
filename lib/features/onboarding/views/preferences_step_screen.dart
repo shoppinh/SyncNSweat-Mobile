@@ -47,7 +47,7 @@ class _PreferencesStepScreenState extends ConsumerState<PreferencesStepScreen> {
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
               decoration: const InputDecoration(labelText: 'Preferred tempo (optional)'),
-              value: _tempo,
+              initialValue: _tempo,
               items: const [
                 DropdownMenuItem(value: 'high', child: Text('High energy')),
                 DropdownMenuItem(value: 'medium', child: Text('Moderate pace')),

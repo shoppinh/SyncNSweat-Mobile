@@ -46,13 +46,13 @@ class _ProfileStepScreenState extends ConsumerState<ProfileStepScreen> {
             ),
             const SizedBox(height: 24),
             DropdownButtonFormField<FitnessGoal>(
-              value: _goal,
+              initialValue: _goal,
               decoration: const InputDecoration(labelText: 'Goal'),
               items: FitnessGoal.values
                   .map((goal) => DropdownMenuItem(
                         value: goal,
                         child: Text(goal.name),
-                      ))
+                      ),)
                   .toList(),
               onChanged: (value) {
                 if (value != null) {
@@ -62,13 +62,13 @@ class _ProfileStepScreenState extends ConsumerState<ProfileStepScreen> {
             ),
             const SizedBox(height: 12),
             DropdownButtonFormField<FitnessLevel>(
-              value: _level,
+              initialValue: _level,
               decoration: const InputDecoration(labelText: 'Experience level'),
               items: FitnessLevel.values
                   .map((level) => DropdownMenuItem(
                         value: level,
                         child: Text(level.name),
-                      ))
+                      ),)
                   .toList(),
               onChanged: (value) {
                 if (value != null) {

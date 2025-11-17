@@ -46,11 +46,29 @@ class AuthRepository {
 
   Future<UserModel> me() async {
     final response = await _dio.get<Map<String, dynamic>>('/users/me');
-    return UserModel.fromJson(response.data!);
+    var profileResponse;
+    try {
+      profileResponse =
+        await _dio.get<Map<String, dynamic>>('/profiles/me/preferences');
+    } on DioException catch (error) {
+      if (error.response?.statusCode != 404) {
+      rethrow;
+      }
+      profileResponse = Response<Map<String, dynamic>>(
+      data: {},
+      requestOptions: RequestOptions(),
+      );
+    }
+    final mergedData = {
+      ...?response.data,
+      "preferences": profileResponse.data,
+    };
+    return UserModel.fromJson(mergedData);
   }
 
   Future<String> getSpotifyAuthUrl() async {
-    final response = await _dio.get<Map<String, dynamic>>('/auth/spotify/login');
+    final response =
+        await _dio.get<Map<String, dynamic>>('/auth/spotify/login');
     return response.data?['auth_url'] as String? ?? '';
   }
 }

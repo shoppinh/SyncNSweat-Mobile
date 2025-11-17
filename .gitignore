@@ -18,3 +18,14 @@ windows/flutter/ephemeral/
 **/flutter_export_environment.sh
 .DS_Store
 *.log
+
+# Local Android SDK config
+**/local.properties
+
+# Android signing keys
+android/app/debug.keystore
+*.jks
+*.keystore
+
+# IDE module files (sometimes generated)
+*.iml

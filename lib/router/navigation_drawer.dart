@@ -8,8 +8,8 @@ class MainNavigationDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-        children: [
-          const DrawerHeader(
+        children: const [
+          DrawerHeader(
             decoration: BoxDecoration(color: Color(0xFF0BA37F)),
             child: Align(
               alignment: Alignment.bottomLeft,
