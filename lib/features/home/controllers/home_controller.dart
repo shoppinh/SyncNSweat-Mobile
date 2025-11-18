@@ -26,7 +26,8 @@ class HomeState {
   }
 }
 
-final homeControllerProvider = AsyncNotifierProvider<HomeController, HomeState>(HomeController.new);
+final homeControllerProvider =
+    AsyncNotifierProvider<HomeController, HomeState>(HomeController.new);
 
 class HomeController extends AsyncNotifier<HomeState> {
   late final WorkoutRepository _workoutRepository;
@@ -68,7 +69,8 @@ class HomeController extends AsyncNotifier<HomeState> {
 
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final playlist = await _playlistRepository.refreshPlaylistForWorkout(currentState.todayWorkout!.id);
+      final playlist = await _playlistRepository
+          .refreshPlaylistForWorkout(currentState.todayWorkout!.id);
       return currentState.copyWith(playlist: playlist);
     });
   }
@@ -76,8 +78,17 @@ class HomeController extends AsyncNotifier<HomeState> {
   Future<HomeState> _loadHome() async {
     try {
       final todayWorkout = await _workoutRepository.fetchToday();
-      final playlist = await _playlistRepository.getPlaylistForWorkout(todayWorkout.id);
-      return HomeState(todayWorkout: todayWorkout, playlist: playlist);
+      // Will implement playlist fetching later
+      // final playlist = await _playlistRepository.getPlaylistForWorkout(todayWorkout.id);
+
+      return HomeState(
+        todayWorkout: todayWorkout,
+        playlist: PlaylistRecommendation(
+          id: todayWorkout.playlistId ?? '',
+          name: todayWorkout.playlistName ?? 'Workout Playlist',
+          externalUrl: todayWorkout.playlistUrl ?? '',
+        ),
+      );
     } on DioException catch (error) {
       if (error.response?.statusCode == 404) {
         return const HomeState();

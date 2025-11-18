@@ -77,7 +77,7 @@ class _HomeBody extends StatelessWidget {
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         const SizedBox(height: 12),
-        if (playlist != null)
+        if (playlist != null && playlist.id.isNotEmpty)
           Card(
             child: Column(
               children: [

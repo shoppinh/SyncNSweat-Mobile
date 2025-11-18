@@ -5,7 +5,7 @@ class AppConfig {
   AppConfig({
     required this.apiBaseUrl,
     this.connectTimeout = const Duration(seconds: 10),
-    this.receiveTimeout = const Duration(seconds: 20),
+    this.receiveTimeout = const Duration(seconds: 60),
   });
 
   final String apiBaseUrl;

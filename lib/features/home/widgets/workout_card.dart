@@ -32,7 +32,7 @@ class WorkoutCard extends StatelessWidget {
               spacing: 8,
               children: workout.exercises
                   .take(4)
-                  .map((exercise) => Chip(label: Text(exercise.name)))
+                  .map((workoutExercise) => Chip(label: Text(workoutExercise.exercise?.name ?? 'Exercise')))
                   .toList(),
             ),
             const SizedBox(height: 12),
