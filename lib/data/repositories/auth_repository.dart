@@ -46,7 +46,7 @@ class AuthRepository {
 
   Future<UserModel> me() async {
     final response = await _dio.get<Map<String, dynamic>>('/users/me');
-    var profileResponse;
+    Response<Map<String, dynamic>> profileResponse;
     try {
       profileResponse =
         await _dio.get<Map<String, dynamic>>('/profiles/me/preferences');
@@ -61,7 +61,7 @@ class AuthRepository {
     }
     final mergedData = {
       ...?response.data,
-      "preferences": profileResponse.data,
+      'preferences': profileResponse.data,
     };
     return UserModel.fromJson(mergedData);
   }

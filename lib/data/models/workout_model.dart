@@ -149,6 +149,6 @@ class WorkoutExerciseModel extends Equatable {
         restSeconds,
         completedSets,
         weightsUsed,
-        exercise
+        exercise,
       ];
 }
