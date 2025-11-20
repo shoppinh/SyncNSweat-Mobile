@@ -36,7 +36,7 @@ class WorkoutDetailController extends AutoDisposeFamilyAsyncNotifier<WorkoutMode
       );
 
       final updatedExercises = workout.exercises
-          .map((e) => e.id == updatedExercise.id ? updatedExercise : e)
+          .map((e) => e.exercise?.id == exerciseId? updatedExercise : e)
           .toList();
       return workout.copyWith(exercises: updatedExercises);
     });

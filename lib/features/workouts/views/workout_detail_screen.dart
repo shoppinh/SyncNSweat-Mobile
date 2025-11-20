@@ -30,19 +30,19 @@ class WorkoutDetailScreen extends ConsumerWidget {
           itemCount: workout.exercises.length,
           separatorBuilder: (_, __) => const SizedBox(height: 12),
           itemBuilder: (context, index) {
-            final exercise = workout.exercises[index];
+            final workoutExercise = workout.exercises[index];
             return Card(
               child: ListTile(
-              leading: CircleAvatar(child: Text('${exercise.order ?? index + 1}')),
-              title: Text(exercise.exercise?.name ?? 'Exercise'),
+              leading: CircleAvatar(child: Text('${workoutExercise.order ?? index + 1}')),
+              title: Text(workoutExercise.exercise?.name ?? 'Exercise'),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                Text('${exercise.sets ?? '-'} sets · ${exercise.reps ?? '-'} reps'),
-                if (exercise.exercise?.instructions != null && exercise.exercise!.instructions!.isNotEmpty)
+                Text('${workoutExercise.sets ?? '-'} sets · ${workoutExercise.reps ?? '-'} reps'),
+                if (workoutExercise.exercise?.instructions != null && workoutExercise.exercise!.instructions!.isNotEmpty)
                   Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: exercise.exercise!.instructions!.map((instruction) => Text('• $instruction', style: const TextStyle(fontSize: 12))).toList(),
+                  children: workoutExercise.exercise!.instructions!.map((instruction) => Text('• $instruction', style: const TextStyle(fontSize: 12))).toList(),
                   ),
                 ],
               ),
@@ -50,7 +50,7 @@ class WorkoutDetailScreen extends ConsumerWidget {
                 icon: const Icon(Icons.swap_horiz),
                 onPressed: () => ref
                   .read(workoutDetailControllerProvider(workoutId).notifier)
-                  .swapExercise(exercise.id),
+                  .swapExercise(workoutExercise.exercise!.id!),
               ),
               ),
             );

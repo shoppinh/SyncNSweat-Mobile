@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:syncnsweat_mobile/router/navigation_drawer.dart';
 
 import '../../../data/repositories/auth_repository.dart';
 import '../../auth/controllers/auth_controller.dart';
@@ -16,6 +17,7 @@ class SettingsScreen extends ConsumerWidget {
     final user = authState.value?.user;
 
     return Scaffold(
+      drawer: const MainNavigationDrawer(),
       appBar: AppBar(title: const Text('Settings')),
       body: ListView(
         children: [

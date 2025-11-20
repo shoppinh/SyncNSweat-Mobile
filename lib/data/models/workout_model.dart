@@ -34,12 +34,21 @@ class WorkoutModel extends Equatable {
       playlistName: json['playlist_name'] as String?,
       playlistUrl: json['playlist_url'] as String?,
       playlistId: json['playlist_id'] as String?,
-      exercises: (json['workout_exercises'] as List?)
-              ?.map(
-                (e) => WorkoutExerciseModel.fromJson(e as Map<String, dynamic>),
-              )
-              .toList() ??
-          const [],
+      exercises: (() {
+        final list = (json['workout_exercises'] as List?)
+                ?.cast<Map<String, dynamic>>() ??
+            [];
+        list.sort((a, b) {
+          final orderA = a['order'] as int? ?? 0;
+          final orderB = b['order'] as int? ?? 0;
+          return orderA.compareTo(orderB);
+        });
+        return list
+            .map(
+              (e) => WorkoutExerciseModel.fromJson(e),
+            )
+            .toList();
+      })(),
     );
   }
 
@@ -81,17 +90,16 @@ class WorkoutModel extends Equatable {
 }
 
 class WorkoutExerciseModel extends Equatable {
-  const WorkoutExerciseModel(
-      {required this.id,
-      this.sets,
-      this.reps,
-      this.order,
-      this.restSeconds,
-      this.completedSets,
-      this.weightsUsed,
-      this.exercise,});
+  const WorkoutExerciseModel({
+    this.sets,
+    this.reps,
+    this.order,
+    this.restSeconds,
+    this.completedSets,
+    this.weightsUsed,
+    this.exercise,
+  });
 
-  final int id;
   final int? sets;
   final String? reps;
   final int? order;
@@ -102,7 +110,6 @@ class WorkoutExerciseModel extends Equatable {
 
   factory WorkoutExerciseModel.fromJson(Map<String, dynamic> json) {
     return WorkoutExerciseModel(
-      id: json['id'] as int? ?? json['exercise_id'] as int? ?? 0,
       sets: json['sets'] as int?,
       reps: json['reps']?.toString(),
       order: json['order'] as int?,
@@ -119,7 +126,6 @@ class WorkoutExerciseModel extends Equatable {
   }
 
   WorkoutExerciseModel copyWith({
-    int? id,
     int? sets,
     String? reps,
     int? order,
@@ -129,7 +135,6 @@ class WorkoutExerciseModel extends Equatable {
     ExerciseModel? exercise,
   }) {
     return WorkoutExerciseModel(
-      id: id ?? this.id,
       sets: sets ?? this.sets,
       reps: reps ?? this.reps,
       order: order ?? this.order,
@@ -142,7 +147,6 @@ class WorkoutExerciseModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
         sets,
         reps,
         order,

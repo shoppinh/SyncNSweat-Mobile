@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:syncnsweat_mobile/router/navigation_drawer.dart';
 
 import '../controllers/history_controller.dart';
 import '../../workouts/views/workout_detail_screen.dart';
@@ -14,6 +15,7 @@ class HistoryScreen extends ConsumerWidget {
     final historyAsync = ref.watch(historyControllerProvider);
 
     return Scaffold(
+      drawer: const MainNavigationDrawer(),
       appBar: AppBar(
         title: const Text('Workout History'),
         actions: [
