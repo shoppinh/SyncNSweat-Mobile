@@ -13,17 +13,26 @@ class WorkoutRepository {
     DateTime? start,
     DateTime? end,
   }) async {
-    final response = await _dio.get<List<dynamic>>(
-      '/workouts',
-      queryParameters: {
-        if (start != null) 'start_date': start.toIso8601String(),
-        if (end != null) 'end_date': end.toIso8601String(),
-      },
-    );
+    try {
+      final response = await _dio.get<List<dynamic>>(
+        '/workouts/',
+        queryParameters: {
+          if (start != null) 'start_date': start.toIso8601String(),
+          if (end != null) 'end_date': end.toIso8601String(),
+          'skip': 0,
+          'limit': 10,
+        },
+      );
 
-    return response.data!
-        .map((json) => WorkoutModel.fromJson(json as Map<String, dynamic>))
-        .toList();
+      return response.data!
+          .map((json) => WorkoutModel.fromJson(json as Map<String, dynamic>))
+          .toList();
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+        return [];
+      }
+      rethrow;
+    }
   }
 
   Future<WorkoutModel> fetchToday() async {
@@ -49,7 +58,8 @@ class WorkoutRepository {
   }
 
   Future<WorkoutModel> suggestAiWorkout() async {
-    final response = await _dio.post<Map<String, dynamic>>('/workouts/suggest-workout-schedule');
+    final response = await _dio
+        .post<Map<String, dynamic>>('/workouts/suggest-workout-schedule');
     return WorkoutModel.fromJson(response.data!);
   }
 
