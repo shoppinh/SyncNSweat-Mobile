@@ -16,7 +16,9 @@ class AppConfig {
     const dartDefineBase = String.fromEnvironment('API_BASE_URL');
     final baseUrl = dartDefineBase.isNotEmpty
         ? dartDefineBase
-        : (kReleaseMode ? 'https://api.syncnsweat.com/api/v1' : 'http://localhost:8000/api/v1');
+        : (kReleaseMode
+            ? 'https://syncnsweat-be-1077888498720.us-central1.run.app/api/v1'
+            : 'http://localhost:8000/api/v1');
 
     return AppConfig(apiBaseUrl: baseUrl);
   }
