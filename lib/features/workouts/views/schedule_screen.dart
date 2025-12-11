@@ -29,7 +29,7 @@ class ScheduleScreen extends ConsumerWidget {
           if (schedule == null) {
             return const Center(
                 child:
-                    Text('No schedule available. Please set up your profile.'));
+                    Text('No schedule available. Please set up your profile.'),);
           }
           return ListView.separated(
             padding: const EdgeInsets.all(16),
@@ -67,7 +67,7 @@ class ScheduleScreen extends ConsumerWidget {
                           // For now just show a snackbar
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                                content: Text('Starting ${day.focus} workout')),
+                                content: Text('Starting ${day.focus} workout'),),
                           );
                         },
                 ),

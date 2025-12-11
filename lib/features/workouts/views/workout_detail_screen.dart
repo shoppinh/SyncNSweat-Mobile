@@ -76,7 +76,7 @@ class WorkoutDetailScreen extends ConsumerWidget {
                             children: [
                               const Text('• ',
                                   style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
+                                      TextStyle(fontWeight: FontWeight.bold),),
                               Expanded(
                                 child: Text(
                                   instruction,
@@ -113,7 +113,7 @@ class WorkoutDetailScreen extends ConsumerWidget {
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                        content: Text('Workout Completed! Streak updated.')),
+                        content: Text('Workout Completed! Streak updated.'),),
                   );
                 }
               },

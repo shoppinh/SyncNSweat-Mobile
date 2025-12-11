@@ -65,7 +65,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
           ),
           const SizedBox(height: 16),
           const Text('Available Days',
-              style: TextStyle(fontWeight: FontWeight.bold)),
+              style: TextStyle(fontWeight: FontWeight.bold),),
           Wrap(
             spacing: 8,
             children:
@@ -92,8 +92,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
             value: _workoutDurationMinutes,
             items: [15, 30, 45, 60, 90],
             onChanged: (value) {
-              if (value != null)
+              if (value != null) {
                 setState(() => _workoutDurationMinutes = value);
+              }
             },
             itemLabelBuilder: (item) => '$item mins',
           ),
@@ -115,7 +116,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
         Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
         const SizedBox(height: 8),
         DropdownButtonFormField<T>(
-          value: value,
+          initialValue: value,
           items: items.map((item) {
             return DropdownMenuItem(
               value: item,

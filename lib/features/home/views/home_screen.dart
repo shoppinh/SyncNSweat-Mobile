@@ -32,7 +32,7 @@ class HomeScreen extends ConsumerWidget {
                   Text(
                     '${homeAsync.value!.streak}',
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16),
+                        fontWeight: FontWeight.bold, fontSize: 16,),
                   ),
                 ],
               ),
@@ -93,7 +93,7 @@ class _HomeBody extends StatelessWidget {
     if (workout == null) {
       return const Center(
           child:
-              Text('No workout available yet. Generate your first schedule!'));
+              Text('No workout available yet. Generate your first schedule!'),);
     }
 
     return ListView(

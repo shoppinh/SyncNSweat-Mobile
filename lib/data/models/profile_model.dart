@@ -114,6 +114,6 @@ class ProfileModel extends Equatable {
         fitnessLevel,
         availableDays,
         workoutDurationMinutes,
-        streak
+        streak,
       ];
 }
