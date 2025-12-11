@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../data/models/workout_model.dart';
 import '../../../data/repositories/workout_repository.dart';
 
-final workoutDetailControllerProvider = AutoDisposeAsyncNotifierProviderFamily<WorkoutDetailController, WorkoutModel, int>(
+final workoutDetailControllerProvider = AutoDisposeAsyncNotifierProviderFamily<
+    WorkoutDetailController, WorkoutModel, int>(
   WorkoutDetailController.new,
 );
 
-class WorkoutDetailController extends AutoDisposeFamilyAsyncNotifier<WorkoutModel, int> {
+class WorkoutDetailController
+    extends AutoDisposeFamilyAsyncNotifier<WorkoutModel, int> {
   late final WorkoutRepository _workoutRepository;
 
   @override
@@ -19,7 +21,8 @@ class WorkoutDetailController extends AutoDisposeFamilyAsyncNotifier<WorkoutMode
   Future<void> refresh() async {
     final workoutId = arg;
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() => _workoutRepository.fetchById(workoutId));
+    state =
+        await AsyncValue.guard(() => _workoutRepository.fetchById(workoutId));
   }
 
   Future<void> swapExercise(int exerciseId) async {
@@ -36,9 +39,21 @@ class WorkoutDetailController extends AutoDisposeFamilyAsyncNotifier<WorkoutMode
       );
 
       final updatedExercises = workout.exercises
-          .map((e) => e.exercise?.id == exerciseId? updatedExercise : e)
+          .map((e) => e.exercise?.id == exerciseId ? updatedExercise : e)
           .toList();
       return workout.copyWith(exercises: updatedExercises);
+    });
+  }
+
+  Future<void> completeWorkout() async {
+    final workout = state.value;
+    if (workout == null) return;
+
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      await _workoutRepository.completeWorkout(workout.id);
+      // Refresh to get updated status if needed, or just return current
+      return workout;
     });
   }
 }

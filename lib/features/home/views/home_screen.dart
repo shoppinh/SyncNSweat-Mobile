@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../router/navigation_drawer.dart';
 import '../../playlists/views/playlist_preview_sheet.dart';
 import '../../workouts/views/workout_detail_screen.dart';
+import '../../workouts/views/schedule_screen.dart';
 import '../controllers/home_controller.dart';
 import '../widgets/workout_card.dart';
 
@@ -21,8 +22,25 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Today'),
         actions: [
+          if (homeAsync.valueOrNull != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: Row(
+                children: [
+                  const Icon(Icons.local_fire_department, color: Colors.orange),
+                  const SizedBox(width: 4),
+                  Text(
+                    '${homeAsync.value!.streak}',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
           IconButton(
-            onPressed: homeAsync.isLoading ? null : () => ref.read(homeControllerProvider.notifier).refresh(),
+            onPressed: homeAsync.isLoading
+                ? null
+                : () => ref.read(homeControllerProvider.notifier).refresh(),
             icon: const Icon(Icons.refresh),
           ),
         ],
@@ -37,16 +55,23 @@ class HomeScreen extends ConsumerWidget {
         children: [
           FloatingActionButton.extended(
             heroTag: 'aiWorkout',
-            onPressed: homeAsync.isLoading ? null : () => ref.read(homeControllerProvider.notifier).suggestWorkout(),
+            onPressed: homeAsync.isLoading
+                ? null
+                : () =>
+                    ref.read(homeControllerProvider.notifier).suggestWorkout(),
             icon: const Icon(Icons.auto_fix_high),
             label: const Text('AI Workout'),
           ),
           const SizedBox(height: 12),
           FloatingActionButton.extended(
             heroTag: 'regenerate',
-            onPressed: homeAsync.isLoading ? null : () => ref.read(homeControllerProvider.notifier).regenerateSchedule(),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const ScheduleScreen()),
+              );
+            },
             icon: const Icon(Icons.calendar_today),
-            label: const Text('Regenerate week'),
+            label: const Text('View Schedule'),
           ),
         ],
       ),
@@ -66,7 +91,9 @@ class _HomeBody extends StatelessWidget {
     final playlist = data.playlist;
 
     if (workout == null) {
-      return const Center(child: Text('No workout available yet. Generate your first schedule!'));
+      return const Center(
+          child:
+              Text('No workout available yet. Generate your first schedule!'));
     }
 
     return ListView(
@@ -99,7 +126,9 @@ class _HomeBody extends StatelessWidget {
                   label: const Text('Browse playlists'),
                 ),
                 TextButton.icon(
-                  onPressed: () => ref.read(homeControllerProvider.notifier).refreshPlaylist(),
+                  onPressed: () => ref
+                      .read(homeControllerProvider.notifier)
+                      .refreshPlaylist(),
                   icon: const Icon(Icons.refresh),
                   label: const Text('Refresh playlist'),
                 ),
