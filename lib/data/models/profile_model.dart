@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 enum FitnessGoal { strength, endurance, weightLoss, recomposition, general }
+
 enum FitnessLevel { beginner, intermediate, advanced }
 
 FitnessGoal fitnessGoalFromString(String? raw) {
@@ -64,6 +65,7 @@ class ProfileModel extends Equatable {
     required this.fitnessLevel,
     required this.availableDays,
     required this.workoutDurationMinutes,
+    this.streak = 0,
   });
 
   final int id;
@@ -74,6 +76,8 @@ class ProfileModel extends Equatable {
   final List<String> availableDays;
   final int workoutDurationMinutes;
 
+  final int streak;
+
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
     return ProfileModel(
       id: json['id'] as int,
@@ -81,8 +85,10 @@ class ProfileModel extends Equatable {
       name: json['name'] as String? ?? '',
       fitnessGoal: fitnessGoalFromString(json['fitness_goal'] as String?),
       fitnessLevel: fitnessLevelFromString(json['fitness_level'] as String?),
-      availableDays: (json['available_days'] as List?)?.cast<String>() ?? const [],
+      availableDays:
+          (json['available_days'] as List?)?.cast<String>() ?? const [],
       workoutDurationMinutes: json['workout_duration_minutes'] as int? ?? 45,
+      streak: json['streak'] as int? ?? 0,
     );
   }
 
@@ -95,9 +101,19 @@ class ProfileModel extends Equatable {
       'fitness_level': fitnessLevelToString(fitnessLevel),
       'available_days': availableDays,
       'workout_duration_minutes': workoutDurationMinutes,
+      'streak': streak,
     };
   }
 
   @override
-  List<Object?> get props => [id, userId, name, fitnessGoal, fitnessLevel, availableDays, workoutDurationMinutes];
+  List<Object?> get props => [
+        id,
+        userId,
+        name,
+        fitnessGoal,
+        fitnessLevel,
+        availableDays,
+        workoutDurationMinutes,
+        streak
+      ];
 }

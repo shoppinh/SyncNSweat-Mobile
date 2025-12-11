@@ -5,23 +5,28 @@ import '../../../data/models/playlist_model.dart';
 import '../../../data/models/workout_model.dart';
 import '../../../data/repositories/playlist_repository.dart';
 import '../../../data/repositories/workout_repository.dart';
+import '../../../data/repositories/profile_repository.dart';
 
 class HomeState {
   const HomeState({
     this.todayWorkout,
     this.playlist,
+    this.streak = 0,
   });
 
   final WorkoutModel? todayWorkout;
   final PlaylistRecommendation? playlist;
+  final int streak;
 
   HomeState copyWith({
     WorkoutModel? todayWorkout,
     PlaylistRecommendation? playlist,
+    int? streak,
   }) {
     return HomeState(
       todayWorkout: todayWorkout ?? this.todayWorkout,
       playlist: playlist ?? this.playlist,
+      streak: streak ?? this.streak,
     );
   }
 }
@@ -32,11 +37,13 @@ final homeControllerProvider =
 class HomeController extends AsyncNotifier<HomeState> {
   late final WorkoutRepository _workoutRepository;
   late final PlaylistRepository _playlistRepository;
+  late final ProfileRepository _profileRepository;
 
   @override
   Future<HomeState> build() async {
     _workoutRepository = ref.read(workoutRepositoryProvider);
     _playlistRepository = ref.read(playlistRepositoryProvider);
+    _profileRepository = ref.read(profileRepositoryProvider);
     return _loadHome();
   }
 
@@ -78,8 +85,7 @@ class HomeController extends AsyncNotifier<HomeState> {
   Future<HomeState> _loadHome() async {
     try {
       final todayWorkout = await _workoutRepository.fetchToday();
-      // Will implement playlist fetching later
-      // final playlist = await _playlistRepository.getPlaylistForWorkout(todayWorkout.id);
+      final profile = await _profileRepository.fetchProfile();
 
       return HomeState(
         todayWorkout: todayWorkout,
@@ -88,6 +94,7 @@ class HomeController extends AsyncNotifier<HomeState> {
           name: todayWorkout.playlistName ?? 'Workout Playlist',
           externalUrl: todayWorkout.playlistUrl ?? '',
         ),
+        streak: profile?.streak ?? 0,
       );
     } on DioException catch (error) {
       if (error.response?.statusCode == 404) {

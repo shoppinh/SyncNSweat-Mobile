@@ -73,6 +73,10 @@ class WorkoutRepository {
 
     return WorkoutExerciseModel.fromJson(response.data!);
   }
+
+  Future<void> completeWorkout(int id) async {
+    await _dio.post('/workouts/$id/complete');
+  }
 }
 
 final workoutRepositoryProvider = Provider<WorkoutRepository>((ref) {
