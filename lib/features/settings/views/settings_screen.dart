@@ -30,7 +30,7 @@ class SettingsScreen extends ConsumerWidget {
               title: Text(user.email),
               subtitle: Text(user.spotifyConnected
                   ? 'Spotify connected'
-                  : 'Spotify not connected'),
+                  : 'Spotify not connected',),
             ),
             Consumer(
               builder: (context, ref, child) {
@@ -58,7 +58,7 @@ class SettingsScreen extends ConsumerWidget {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                               content: Text(
-                                  'Profile not found, please create one first')),
+                                  'Profile not found, please create one first',),),
                         );
                       }
                     });
@@ -93,7 +93,7 @@ class SettingsScreen extends ConsumerWidget {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                               content: Text(
-                                  'Preferences not found, please try again later')),
+                                  'Preferences not found, please try again later',),),
                         );
                       }
                     });

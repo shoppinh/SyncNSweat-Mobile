@@ -32,7 +32,7 @@ class HomeScreen extends ConsumerWidget {
                   Text(
                     '${homeAsync.value!.streak}',
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16),
+                        fontWeight: FontWeight.bold, fontSize: 16,),
                   ),
                 ],
               ),
@@ -48,19 +48,26 @@ class HomeScreen extends ConsumerWidget {
       body: homeAsync.when(
         data: (data) => _HomeBody(data: data, ref: ref),
         error: (error, _) => Center(child: Text('Error: $error')),
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(child: CoolingProgressIndicator()),
       ),
       floatingActionButton: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          FloatingActionButton.extended(
-            heroTag: 'aiWorkout',
-            onPressed: homeAsync.isLoading
-                ? null
-                : () =>
+          AbsorbPointer(
+            absorbing: homeAsync.isLoading,
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 180),
+              opacity: homeAsync.isLoading ? 0.6 : 1.0,
+              child: FloatingActionButton.extended(
+                heroTag: 'aiWorkout',
+                onPressed: homeAsync.isLoading
+                    ? null
+                    : () =>
                     ref.read(homeControllerProvider.notifier).suggestWorkout(),
-            icon: const Icon(Icons.auto_fix_high),
-            label: const Text('AI Workout'),
+                icon: const Icon(Icons.auto_fix_high),
+                label: const Text('AI Workout'),
+              ),
+            ),
           ),
           const SizedBox(height: 12),
           FloatingActionButton.extended(
@@ -79,6 +86,30 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
+class CoolingProgressIndicator extends StatelessWidget {
+  const CoolingProgressIndicator({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const SizedBox(height: 12),
+        Text(
+          'Generating AI workout — this may take a minute',
+          style: Theme.of(context).textTheme.bodyMedium,
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 8),
+        const SizedBox(
+          width: 200,
+          child: LinearProgressIndicator(),
+        ),
+      ],
+    );
+  }
+}
+
 class _HomeBody extends StatelessWidget {
   const _HomeBody({required this.data, required this.ref});
 
@@ -93,7 +124,7 @@ class _HomeBody extends StatelessWidget {
     if (workout == null) {
       return const Center(
           child:
-              Text('No workout available yet. Generate your first schedule!'));
+              Text('No workout available yet. Generate your first schedule!'),);
     }
 
     return ListView(

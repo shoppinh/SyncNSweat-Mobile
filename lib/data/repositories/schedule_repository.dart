@@ -4,7 +4,7 @@ import 'package:syncnsweat_mobile/data/models/weekly_schedule_model.dart';
 
 class ScheduleRepository {
   Future<WeeklyScheduleModel> generateWeeklySchedule(
-      ProfileModel profile) async {
+      ProfileModel profile,) async {
     // Mock logic to generate schedule based on profile
     final days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     final workouts = <DailyWorkoutModel>[];
@@ -43,13 +43,13 @@ class ScheduleRepository {
           playlistName: playlistName,
           playlistUrl: 'https://open.spotify.com/playlist/mock',
           isRestDay: false,
-        ));
+        ),);
       } else {
         workouts.add(DailyWorkoutModel(
           dayOfWeek: day,
           focus: 'Rest & Recovery',
           isRestDay: true,
-        ));
+        ),);
       }
     }
 

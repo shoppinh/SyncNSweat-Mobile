@@ -59,7 +59,7 @@ class WorkoutRepository {
 
   Future<WorkoutModel> suggestAiWorkout() async {
     final response = await _dio
-        .post<Map<String, dynamic>>('/workouts/suggest-workout-schedule');
+        .post<Map<String, dynamic>>('/workouts/today');
     return WorkoutModel.fromJson(response.data!);
   }
 

@@ -27,7 +27,7 @@ class _PreferencesEditScreenState extends ConsumerState<PreferencesEditScreen> {
     'Pull-up Bar',
     'Bench',
     'Yoga Mat',
-    'None (Bodyweight)'
+    'None (Bodyweight)',
   ];
 
   final List<String> _allMuscleGroups = [
@@ -37,17 +37,17 @@ class _PreferencesEditScreenState extends ConsumerState<PreferencesEditScreen> {
     'Arms',
     'Shoulders',
     'Abs',
-    'Full Body'
+    'Full Body',
   ];
 
   final List<String> _allMusicGenres = [
     'Pop',
     'Rock',
-    'Hip-Hop',
+    'Hip Hop',
     'EDM',
     'Metal',
     'Classical',
-    'Jazz'
+    'Jazz',
   ];
 
   final List<String> _allTempos = ['Slow', 'Medium', 'Fast', 'Mixed'];
@@ -98,7 +98,7 @@ class _PreferencesEditScreenState extends ConsumerState<PreferencesEditScreen> {
           ),
           const SizedBox(height: 24),
           const Text('Music Tempo',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
           const SizedBox(height: 8),
           Wrap(
             spacing: 8,
@@ -129,7 +129,7 @@ class _PreferencesEditScreenState extends ConsumerState<PreferencesEditScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(title,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
