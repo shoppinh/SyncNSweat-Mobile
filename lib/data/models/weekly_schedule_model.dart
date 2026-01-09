@@ -35,22 +35,19 @@ class DailyWorkoutModel extends Equatable {
     required this.focus,
     this.playlistName,
     this.playlistUrl,
-    this.isRestDay = false,
   });
 
   final String dayOfWeek;
   final String focus;
   final String? playlistName;
   final String? playlistUrl;
-  final bool isRestDay;
 
   factory DailyWorkoutModel.fromJson(Map<String, dynamic> json) {
     return DailyWorkoutModel(
-      dayOfWeek: json['day_of_week'] as String,
+      dayOfWeek: json['date'] as String,
       focus: json['focus'] as String,
       playlistName: json['playlist_name'] as String?,
       playlistUrl: json['playlist_url'] as String?,
-      isRestDay: json['is_rest_day'] as bool? ?? false,
     );
   }
 
@@ -60,11 +57,10 @@ class DailyWorkoutModel extends Equatable {
       'focus': focus,
       'playlist_name': playlistName,
       'playlist_url': playlistUrl,
-      'is_rest_day': isRestDay,
     };
   }
 
   @override
   List<Object?> get props =>
-      [dayOfWeek, focus, playlistName, playlistUrl, isRestDay];
+      [dayOfWeek, focus, playlistName, playlistUrl];
 }

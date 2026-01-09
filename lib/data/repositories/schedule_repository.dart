@@ -1,57 +1,21 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:syncnsweat_mobile/data/models/profile_model.dart';
+import 'package:syncnsweat_mobile/core/network/api_client.dart';
 import 'package:syncnsweat_mobile/data/models/weekly_schedule_model.dart';
 
 class ScheduleRepository {
+  ScheduleRepository(this._dio);
+  final Dio _dio;
   Future<WeeklyScheduleModel> generateWeeklySchedule(
-      ProfileModel profile,) async {
-    // Mock logic to generate schedule based on profile
-    final days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+       bool isRegenerated,) async {
     final workouts = <DailyWorkoutModel>[];
 
-    for (final day in days) {
-      if (profile.availableDays.contains(day)) {
-        String focus = 'General Fitness';
-        String? playlistName;
+    final response = await _dio.post( '/workouts/schedule', data: {
+      'regenerate': isRegenerated,
+    });
 
-        switch (profile.fitnessGoal) {
-          case FitnessGoal.strength:
-            focus = 'Strength Training';
-            playlistName = 'Power Workout';
-            break;
-          case FitnessGoal.endurance:
-            focus = 'Cardio & Endurance';
-            playlistName = 'Running Hits';
-            break;
-          case FitnessGoal.weightLoss:
-            focus = 'HIIT & Cardio';
-            playlistName = 'High Energy';
-            break;
-          case FitnessGoal.recomposition:
-            focus = 'Strength & Cardio';
-            playlistName = 'Mix Tape';
-            break;
-          case FitnessGoal.general:
-            focus = 'Full Body';
-            playlistName = 'Feel Good';
-            break;
-        }
-
-        workouts.add(DailyWorkoutModel(
-          dayOfWeek: day,
-          focus: focus,
-          playlistName: playlistName,
-          playlistUrl: 'https://open.spotify.com/playlist/mock',
-          isRestDay: false,
-        ),);
-      } else {
-        workouts.add(DailyWorkoutModel(
-          dayOfWeek: day,
-          focus: 'Rest & Recovery',
-          isRestDay: true,
-        ),);
-      }
-    }
+    workouts.addAll((response.data['workouts'] as List).map((e) =>
+        DailyWorkoutModel.fromJson(e as Map<String, dynamic>)));
 
     // Simulate network delay
     await Future.delayed(const Duration(seconds: 1));
@@ -62,8 +26,10 @@ class ScheduleRepository {
       dailyWorkouts: workouts,
     );
   }
+
 }
 
 final scheduleRepositoryProvider = Provider<ScheduleRepository>((ref) {
-  return ScheduleRepository();
+  final dio = ref.watch(dioProvider);
+  return ScheduleRepository(dio);
 });

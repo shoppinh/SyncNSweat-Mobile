@@ -42,6 +42,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       }
     });
 
+
     final isLoading = authAsync.isLoading;
 
     return Scaffold(

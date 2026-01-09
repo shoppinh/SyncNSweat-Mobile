@@ -26,17 +26,12 @@ class ScheduleScreen extends ConsumerWidget {
       ),
       body: scheduleAsync.when(
         data: (schedule) {
-          if (schedule == null) {
-            return const Center(
-                child:
-                    Text('No schedule available. Please set up your profile.'),);
-          }
           return ListView.separated(
             padding: const EdgeInsets.all(16),
-            itemCount: schedule.dailyWorkouts.length,
+            itemCount: schedule.weeklySchedule!.dailyWorkouts.length,
             separatorBuilder: (_, __) => const SizedBox(height: 12),
             itemBuilder: (context, index) {
-              final day = schedule.dailyWorkouts[index];
+              final day = schedule.weeklySchedule!.dailyWorkouts[index];
               final isToday =
                   day.dayOfWeek == DateFormat('E').format(DateTime.now());
 
@@ -51,18 +46,14 @@ class ScheduleScreen extends ConsumerWidget {
                     foregroundColor: isToday
                         ? Theme.of(context).colorScheme.onPrimary
                         : null,
-                    child: Text(day.dayOfWeek.substring(0, 1)),
+                        // Format the dayOfWeek iso string to a short day name
+                    child: Text(DateFormat('E').format(DateTime.parse(day.dayOfWeek))),
                   ),
                   title: Text(day.focus),
-                  subtitle: day.isRestDay
-                      ? const Text('Rest Day')
-                      : Text('Playlist: ${day.playlistName ?? "None"}'),
-                  trailing: day.isRestDay
-                      ? const Icon(Icons.hotel)
-                      : const Icon(Icons.fitness_center),
-                  onTap: day.isRestDay
-                      ? null
-                      : () {
+                  subtitle: day.playlistName != null
+                      ? Text('${day.playlistName}')
+                      : const Text('No playlist assigned'),
+                  onTap:  () {
                           // Navigate to workout detail or start workout
                           // For now just show a snackbar
                           ScaffoldMessenger.of(context).showSnackBar(
