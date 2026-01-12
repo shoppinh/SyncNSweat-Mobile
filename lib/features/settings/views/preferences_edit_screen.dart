@@ -20,14 +20,22 @@ class _PreferencesEditScreenState extends ConsumerState<PreferencesEditScreen> {
   String? _musicTempo;
 
   final List<String> _allEquipment = [
-    'Dumbbells',
-    'Barbell',
-    'Kettlebell',
-    'Resistance Bands',
-    'Pull-up Bar',
-    'Bench',
-    'Yoga Mat',
-    'None (Bodyweight)',
+    'roller',
+    'skierg machine',
+    'tire',
+    'stepmill machine',
+    'hammer',
+    'dumbbells',
+    'kettlebells',
+    'exercise ball',
+    'band',
+    'cable',
+    'upper body ergometer',
+    'rope',
+    'elliptical machine',
+    'body weight',
+    'medicine ball',
+    'assisted towel'
   ];
 
   final List<String> _allMuscleGroups = [

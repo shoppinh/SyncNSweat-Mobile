@@ -85,6 +85,7 @@ class ProfileRepository {
       rethrow;
     }
   }
+
 }
 
 final profileRepositoryProvider = Provider<ProfileRepository>((ref) {

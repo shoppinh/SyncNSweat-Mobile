@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncnsweat_mobile/data/models/profile_model.dart';
 import 'package:syncnsweat_mobile/data/models/preferences_model.dart';
 import 'package:syncnsweat_mobile/data/repositories/profile_repository.dart';
+import 'package:syncnsweat_mobile/features/auth/controllers/auth_controller.dart';
 
 class ProfileController extends StateNotifier<AsyncValue<ProfileModel?>> {
   ProfileController(this._repository) : super(const AsyncValue.loading()) {
@@ -85,6 +86,8 @@ class PreferencesController
 final profileControllerProvider =
     StateNotifierProvider<ProfileController, AsyncValue<ProfileModel?>>((ref) {
   final repository = ref.watch(profileRepositoryProvider);
+  // Watch auth state to invalidate when user logs out
+  ref.watch(authControllerProvider);
   return ProfileController(repository);
 });
 
@@ -92,5 +95,7 @@ final preferencesControllerProvider =
     StateNotifierProvider<PreferencesController, AsyncValue<PreferencesModel?>>(
         (ref) {
   final repository = ref.watch(profileRepositoryProvider);
+  // Watch auth state to invalidate when user logs out
+  ref.watch(authControllerProvider);
   return PreferencesController(repository);
 });

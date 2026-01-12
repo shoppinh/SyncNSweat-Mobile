@@ -40,7 +40,7 @@ class ScheduleController
         final schedule =
             await _repository.generateWeeklySchedule(state.value != null);
         state = AsyncValue.data(
-            state.value!.copyWith(weeklySchedule: schedule));
+            state.value!.copyWith(weeklySchedule: schedule),);
       } else {
         // Wait for profile to load or handle error
         // For now, if profile is not loaded, we can't generate.

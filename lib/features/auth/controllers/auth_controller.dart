@@ -4,6 +4,7 @@ import '../../../core/storage/token_storage.dart';
 import '../../../data/models/user_model.dart';
 import '../../../data/repositories/auth_repository.dart';
 import '../../../data/repositories/profile_repository.dart';
+import '../../settings/controllers/profile_controller.dart';
 
 class AuthState {
   const AuthState._({
@@ -29,7 +30,8 @@ class AuthState {
   }
 }
 
-final authControllerProvider = AsyncNotifierProvider<AuthController, AuthState>(AuthController.new);
+final authControllerProvider =
+    AsyncNotifierProvider<AuthController, AuthState>(AuthController.new);
 
 class AuthController extends AsyncNotifier<AuthState> {
   late final AuthRepository _authRepository;
@@ -63,7 +65,8 @@ class AuthController extends AsyncNotifier<AuthState> {
   }) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      await _authRepository.register(email: email, password: password, name: name);
+      await _authRepository.register(
+          email: email, password: password, name: name);
       final token = await _authenticate(email: email, password: password);
       await _tokenStorage.saveToken(token);
       return _loadUser();
@@ -105,7 +108,8 @@ class AuthController extends AsyncNotifier<AuthState> {
     required String email,
     required String password,
   }) async {
-    final tokenResponse = await _authRepository.login(email: email, password: password);
+    final tokenResponse =
+        await _authRepository.login(email: email, password: password);
     return tokenResponse.accessToken;
   }
 }

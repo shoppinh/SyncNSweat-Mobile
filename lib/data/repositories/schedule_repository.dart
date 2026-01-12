@@ -12,10 +12,10 @@ class ScheduleRepository {
 
     final response = await _dio.post( '/workouts/schedule', data: {
       'regenerate': isRegenerated,
-    });
+    },);
 
     workouts.addAll((response.data['workouts'] as List).map((e) =>
-        DailyWorkoutModel.fromJson(e as Map<String, dynamic>)));
+        DailyWorkoutModel.fromJson(e as Map<String, dynamic>),),);
 
     // Simulate network delay
     await Future.delayed(const Duration(seconds: 1));

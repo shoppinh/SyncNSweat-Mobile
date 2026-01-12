@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-enum FitnessGoal { strength, endurance, weightLoss, recomposition, general }
+enum FitnessGoal { strength, endurance, weightLoss, muscleGain, generalFitness }
 
 enum FitnessLevel { beginner, intermediate, advanced }
 
@@ -12,10 +12,10 @@ FitnessGoal fitnessGoalFromString(String? raw) {
       return FitnessGoal.endurance;
     case 'weight_loss':
       return FitnessGoal.weightLoss;
-    case 'recomposition':
-      return FitnessGoal.recomposition;
+    case 'muscle_gain':
+      return FitnessGoal.muscleGain;
     default:
-      return FitnessGoal.general;
+      return FitnessGoal.generalFitness;
   }
 }
 
@@ -27,10 +27,10 @@ String fitnessGoalToString(FitnessGoal goal) {
       return 'endurance';
     case FitnessGoal.weightLoss:
       return 'weight_loss';
-    case FitnessGoal.recomposition:
-      return 'recomposition';
-    case FitnessGoal.general:
-      return 'general';
+    case FitnessGoal.muscleGain:
+      return 'muscle_gain';
+    case FitnessGoal.generalFitness:
+      return 'general_fitness';
   }
 }
 
