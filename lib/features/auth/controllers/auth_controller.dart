@@ -33,6 +33,12 @@ class AuthState {
 final authControllerProvider =
     AsyncNotifierProvider<AuthController, AuthState>(AuthController.new);
 
+// Lightweight derived provider exposing the current user.
+// Providers can watch this instead of the entire auth async state.
+final userProvider = Provider<UserModel?>((ref) {
+  return ref.watch(authControllerProvider).value?.user;
+});
+
 class AuthController extends AsyncNotifier<AuthState> {
   late final AuthRepository _authRepository;
   late final ProfileRepository _profileRepository;

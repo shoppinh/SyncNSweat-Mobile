@@ -12,11 +12,13 @@ class ProfileController extends StateNotifier<AsyncValue<ProfileModel?>> {
   final ProfileRepository _repository;
 
   Future<void> loadProfile() async {
-    state = const AsyncValue.loading();
+    if (mounted) state = const AsyncValue.loading();
     try {
       final profile = await _repository.fetchProfile();
+      if (!mounted) return;
       state = AsyncValue.data(profile);
     } catch (e, st) {
+      if (!mounted) return;
       state = AsyncValue.error(e, st);
     }
   }
@@ -28,7 +30,7 @@ class ProfileController extends StateNotifier<AsyncValue<ProfileModel?>> {
     required List<String> availableDays,
     required int workoutDurationMinutes,
   }) async {
-    state = const AsyncValue.loading();
+    if (mounted) state = const AsyncValue.loading();
     try {
       final updatedProfile = await _repository.saveProfile(
         name: name,
@@ -37,8 +39,10 @@ class ProfileController extends StateNotifier<AsyncValue<ProfileModel?>> {
         availableDays: availableDays,
         workoutDurationMinutes: workoutDurationMinutes,
       );
+      if (!mounted) return;
       state = AsyncValue.data(updatedProfile);
     } catch (e, st) {
+      if (!mounted) return;
       state = AsyncValue.error(e, st);
     }
   }
@@ -53,11 +57,13 @@ class PreferencesController
   final ProfileRepository _repository;
 
   Future<void> loadPreferences() async {
-    state = const AsyncValue.loading();
+    if (mounted) state = const AsyncValue.loading();
     try {
       final preferences = await _repository.fetchPreferences();
+      if (!mounted) return;
       state = AsyncValue.data(preferences);
     } catch (e, st) {
+      if (!mounted) return;
       state = AsyncValue.error(e, st);
     }
   }
@@ -68,7 +74,7 @@ class PreferencesController
     required List<String> musicGenres,
     String? musicTempo,
   }) async {
-    state = const AsyncValue.loading();
+    if (mounted) state = const AsyncValue.loading();
     try {
       final updatedPreferences = await _repository.savePreferences(
         availableEquipment: availableEquipment,
@@ -76,26 +82,27 @@ class PreferencesController
         musicGenres: musicGenres,
         musicTempo: musicTempo,
       );
+      if (!mounted) return;
       state = AsyncValue.data(updatedPreferences);
     } catch (e, st) {
+      if (!mounted) return;
       state = AsyncValue.error(e, st);
     }
   }
 }
 
-final profileControllerProvider =
-    StateNotifierProvider<ProfileController, AsyncValue<ProfileModel?>>((ref) {
+final profileControllerProvider = StateNotifierProvider.autoDispose<
+    ProfileController, AsyncValue<ProfileModel?>>((ref) {
   final repository = ref.watch(profileRepositoryProvider);
-  // Watch auth state to invalidate when user logs out
-  ref.watch(authControllerProvider);
+  // Watch current user so controller reloads per-user
+  ref.watch(userProvider);
   return ProfileController(repository);
 });
 
-final preferencesControllerProvider =
-    StateNotifierProvider<PreferencesController, AsyncValue<PreferencesModel?>>(
-        (ref) {
+final preferencesControllerProvider = StateNotifierProvider.autoDispose<
+    PreferencesController, AsyncValue<PreferencesModel?>>((ref) {
   final repository = ref.watch(profileRepositoryProvider);
-  // Watch auth state to invalidate when user logs out
-  ref.watch(authControllerProvider);
+  // Watch current user so controller reloads per-user
+  ref.watch(userProvider);
   return PreferencesController(repository);
 });
