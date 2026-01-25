@@ -82,6 +82,7 @@ class HomeScreen extends ConsumerWidget {
           ),
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
     );
   }
 }

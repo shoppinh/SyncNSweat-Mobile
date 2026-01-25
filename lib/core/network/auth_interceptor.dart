@@ -20,6 +20,8 @@ class AuthInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) {
     if (err.response?.statusCode == 401) {
       // We swallow the error so the calling layer can decide whether to logout.
+      // Call the refresh token endpoint "/api/token"
+
     }
     handler.next(err);
   }
